@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessMaster Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/E_login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img id="image2" src="../Image/1.jpg" alt="Chess Board 2" class="hidden">
+            <img id="image3" src="../Image/2.jpg" alt="Chess Board 3" class="hidden">
+            <img id="image4" src="../Image/3.jpg" alt="Chess Board 4" class="hidden">
+            <img id="responsive-img" src="../Image/4.png" alt="Chess Board">
+        </div>
+        <div class="form-container">
+            <h1>SANJEEVAN</h1>
+            <h3>Welcome to SANJEEVAN! Login to access exclusive features</h3>
+            <div class="social-login">
+                <div class="social-btn google-btn">
+                    <img src="../Image/Google__G__logo.svg.webp" alt="_Googlelogo" width="7%" height="60%">
+                    <p>Sign in With Google</p>
+                </div>
+            </div>
+            <div class="divider">
+                <span>Or Sign in With ABHA ID</span>
+            </div>
+            <form action="/login" method="POST" id="login-form">
+                <div class="input-group">
+                    <label for="username">UserID / Mobile No :</label>
+                    <input type="text" id="username" name="username" placeholder="Enter UserID / Mobile Number">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password :</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" placeholder="Enter the Password">
+                        <span id="toggle-password" class="password-toggle">
+                            <i class="fas fa-eye" id="show-icon"></i>
+                            <i class="fas fa-eye-slash" id="hide-icon" style="display: none;"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            
+            <br>
+            <p>Don't have an account? <a href="../HTML/Registration.html">Register Here</a></p>
+        </div>
+    </div>
+    <script src="../Javascript/script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('login-form');
+    const images = document.querySelectorAll('.image-container img');
+    const passwordInput = document.getElementById('password');
+    const showIcon = document.getElementById('show-icon');
+    const hideIcon = document.getElementById('hide-icon');
+    let currentImageIndex = 0;
 
+    // Start the first image as active
+    images[currentImageIndex].classList.add('active');
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (validateForm()) {
+            form.submit();
+        }
+    });
+
+    showIcon.addEventListener('click', () => {
+        passwordInput.type = 'text';
+        showIcon.style.display = 'none';
+        hideIcon.style.display = 'inline';
+    });
+
+    hideIcon.addEventListener('click', () => {
+        passwordInput.type = 'password';
+        showIcon.style.display = 'inline';
+        hideIcon.style.display = 'none';
+    });
+
+    attachInputListeners();
+
+    function attachInputListeners() {
+        const inputs = document.querySelectorAll('#login-form input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+            });
+        });
+    }
+
+    function validateForm() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        let isValid = true;
+        clearErrorStates();
+
+        if (username === '') {
+            setErrorState('username');
+            isValid = false;
+        }
+        if (password === '') {
+            setErrorState('password');
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    function setErrorState(field) {
+        document.getElementById(field).classList.add('error');
+    }
+
+    function clearErrorStates() {
+        document.querySelectorAll('.input-group input').forEach(input => {
+            input.classList.remove('error');
+        });
+    }
+
+    // Image rotation logic
+    setInterval(() => {
+        images[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('active');
+    }, 3000); // Changed the interval back to 3000ms for smooth transition
+});
+
+
+    </script>
+</body>
+</html>
